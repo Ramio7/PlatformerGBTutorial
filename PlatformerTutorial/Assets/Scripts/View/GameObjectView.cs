@@ -4,6 +4,6 @@ namespace PlatformerTutorial
 {
     public class GameObjectView : MonoBehaviour
     {
-        public SpriteRenderer spriteRenderer;
+        public SpriteRenderer SpriteRenderer;
     }
 }
