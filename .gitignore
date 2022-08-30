@@ -63,3 +63,5 @@ crashlytics-build.properties
 
 
 PlatformerTutorial/Library/PackageCache/
+
+*.rar
