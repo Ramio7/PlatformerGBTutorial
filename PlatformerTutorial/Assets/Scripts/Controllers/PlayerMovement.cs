@@ -9,77 +9,77 @@ namespace PlatformerTutorial
         private const float _walkSpeed = 4f;
         private const float _animationsSpeed = 15f;
         private const float _jumpForce = 8f;
-        private const float _movingThresh = 0.1f;
-        private const float _jumpThresh = 1f;
-        private const float _groundLevel = 0.0f;
-        private const float _g = -9.8f;
+        private const float _movingThreshold = 0.1f;
+        private const float _jumpThreshold = 1f;
 
         private Vector3 _leftScale = new(-1, 1, 1);
         private Vector3 _rightScale = new(1, 1, 1);
 
         private float _yVelocity;
+        private float _xVelocity;
         private bool _doJump;
         private float _xAxisInput;
 
         private readonly GameObjectView _view;
         private readonly AnimatorConfig _config;
         private readonly SpriteAnimationController _spriteAnimator;
+        private readonly ContactsPooler _contactsPooler;
 
         public PlayerMovement(GameObjectView view)
         {
             _view = view;
-
+            
             _config = Resources.Load<AnimatorConfig>("SpriteAnimatorCfg");
+
             _spriteAnimator = new(_config);
             _spriteAnimator.StartAnimation(_view.SpriteRenderer, AnimState.Idle, true, _animationsSpeed);
+
+            _contactsPooler = new ContactsPooler(_view.Collider);
         }
 
         public void Update()
         {
             _spriteAnimator.Update();
+            _contactsPooler.Update();
 
             _doJump = Input.GetAxis("Vertical") > 0;
             _xAxisInput = Input.GetAxis("Horizontal");
+            _yVelocity = _view.Rigidbody.velocity.y;
 
-            var goSideWay = Mathf.Abs(_xAxisInput) > _movingThresh;
+            var goSideWay = Mathf.Abs(_xAxisInput) > _movingThreshold;
 
-            if (IsGrounded())
+            _spriteAnimator.StartAnimation(_view.SpriteRenderer, goSideWay ? AnimState.Run : AnimState.Idle, true, _animationsSpeed);
+
+            if (goSideWay)
             {
-                if (goSideWay) GoSideWay();
-                _spriteAnimator.StartAnimation(_view.SpriteRenderer, goSideWay ? AnimState.Run : AnimState.Idle, true, _animationsSpeed);
+                GoSideWay();
+            }
+            else
+            {
+                _xVelocity = 0;
+                _view.Rigidbody.velocity = new Vector2(0, _view.Rigidbody.velocity.y);
+            }
 
-                if (_doJump && _yVelocity == 0)
+            if (_contactsPooler.IsGrounded)
+            {
+                if (_doJump && _yVelocity <= _jumpThreshold && _contactsPooler.IsGrounded)
                 {
-                    _yVelocity = _jumpForce;
-                }
-                else if (_yVelocity < 0)
-                {
-                    _yVelocity = 0;
-                    _view.transform.position.Set(_view.transform.position.x, _groundLevel, _view.transform.position.z);
+                    _view.Rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
                 }
             }
             else
             {
-                if (goSideWay) GoSideWay();
-
-                if (Mathf.Abs(_yVelocity) > _jumpThresh)
+                if (Mathf.Abs(_yVelocity) > _jumpThreshold)
                 {
                     _spriteAnimator.StartAnimation(_view.SpriteRenderer, AnimState.Jump, true, _animationsSpeed);
                 }
-
-                _yVelocity += _g * Time.deltaTime;
-                _view.transform.position += Vector3.up * (Time.deltaTime *
-                _yVelocity);
             }
         }
         private void GoSideWay()
         {
-            _view.transform.position += Vector3.right * (Time.deltaTime * _walkSpeed * (_xAxisInput < 0 ? -1 : 1));
+            _xVelocity += Time.fixedDeltaTime * _walkSpeed * (_xAxisInput < 0 ? -1 : 1);
+            _view.Rigidbody.velocity = new Vector2(_xVelocity, _yVelocity);
             _view.transform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
-        }
-        public bool IsGrounded()
-        {
-            return _view.transform.position.y <= _groundLevel && _yVelocity <= 0;
         }
 
     }
