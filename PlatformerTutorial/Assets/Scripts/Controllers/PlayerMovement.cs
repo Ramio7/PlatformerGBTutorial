@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlatformerTutorial
 {
     public class PlayerMovement
     {
-        private const float _walkSpeed = 4f;
+        private const float _walkForce = 4f;
         private const float _animationsSpeed = 15f;
-        private const float _jumpForce = 8f;
+        private const float _jumpForce = 20f;
         private const float _movingThreshold = 0.1f;
         private const float _jumpThreshold = 1f;
 
@@ -77,7 +75,7 @@ namespace PlatformerTutorial
         }
         private void GoSideWay()
         {
-            _xVelocity += Time.fixedDeltaTime * _walkSpeed * (_xAxisInput < 0 ? -1 : 1);
+            _xVelocity += Time.fixedDeltaTime * _walkForce * (_xAxisInput < 0 ? -1 : 1);
             _view.Rigidbody.velocity = new Vector2(_xVelocity, _yVelocity);
             _view.transform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
         }
