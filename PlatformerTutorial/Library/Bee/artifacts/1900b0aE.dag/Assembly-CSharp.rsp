@@ -381,6 +381,7 @@
 "Assets/Scripts/Configs/AIConfig.cs"
 "Assets/Scripts/Configs/AnimatorConfig.cs"
 "Assets/Scripts/Controllers/CannonController.cs"
+"Assets/Scripts/Controllers/LevelGeneratorController.cs"
 "Assets/Scripts/Controllers/PlayerMovement.cs"
 "Assets/Scripts/Controllers/ProtectedZone.cs"
 "Assets/Scripts/Controllers/ProtectorAI.cs"
@@ -396,6 +397,7 @@
 "Assets/Scripts/View/CannonView.cs"
 "Assets/Scripts/View/EnemiesConfigurator.cs"
 "Assets/Scripts/View/GameObjectView.cs"
+"Assets/Scripts/View/LevelGeneratorView.cs"
 "Assets/Scripts/View/LevelObjectTrigger.cs"
 "Assets/Scripts/View/PlayerView.cs"
 -langversion:9.0
