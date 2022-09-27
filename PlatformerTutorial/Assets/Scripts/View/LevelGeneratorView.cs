@@ -15,5 +15,6 @@ namespace PlatformerTutorial
         [Range(0, 100)] public int smoothPassage;
 
         public bool borders;
+        public bool useMarchingSquares;
     }
 }

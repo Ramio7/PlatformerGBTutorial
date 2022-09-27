@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 8153443896107679907}
   - component: {fileID: 8153443896107679904}
   - component: {fileID: 8153443896107679905}
-  - component: {fileID: 8153443896107679935}
   - component: {fileID: 8153443896107679906}
+  - component: {fileID: 3606324701685037672}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -193,21 +193,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8153443896107679935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8153443896107679932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe282921fd45e3a4f9597b74ef09a068, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpriteRenderer: {fileID: 0}
-  Collider: {fileID: 0}
-  Rigidbody: {fileID: 0}
 --- !u!60 &8153443896107679906
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -260,3 +245,18 @@ PolygonCollider2D:
       - {x: -0.16666667, y: -2.2333333}
       - {x: 0.23333335, y: -1.9000001}
       - {x: 0.23333335, y: -2.3000002}
+--- !u!114 &3606324701685037672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8153443896107679932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e7a99db3970044fbedd0c4c59a126a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteRenderer: {fileID: 0}
+  Collider: {fileID: 0}
+  Rigidbody: {fileID: 0}
