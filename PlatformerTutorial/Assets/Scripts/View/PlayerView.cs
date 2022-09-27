@@ -1,21 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace PlatformerTutorial
 {
     public class PlayerView : GameObjectView
     {
-        // Start is called before the first frame update
-        void Start()
+        public Action<AmmunitionView> TakeDamage { get; set; }
+        public Action<QuestObjectView> OnQuestComplete { get; set; }
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            if (collision.TryGetComponent(out GameObjectView contactView))
+            {
+                if (contactView is AmmunitionView _view) TakeDamage?.Invoke(_view);
+                if (contactView is QuestObjectView _view1) OnQuestComplete?.Invoke(_view1);
+            }
         }
     }
 }

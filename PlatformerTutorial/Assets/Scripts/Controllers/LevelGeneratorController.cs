@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -21,6 +19,8 @@ namespace PlatformerTutorial
 
         private int[,] _map;
 
+        private MarchingSquaresGeneratorLevel _marchingSquaresGeneratorLevel;
+
         public LevelGeneratorController(LevelGeneratorView generatorView)
         {
             _tilemap = generatorView.tilemap;
@@ -35,13 +35,20 @@ namespace PlatformerTutorial
             _borders = generatorView.borders;
 
             _map = new int[_mapWidth, _mapHeight];
+
+            if (generatorView.useMarchingSquares) _marchingSquaresGeneratorLevel = new();
         }
 
         public void Start()
         {
             FillMap();
             SmoothMap(_smoothPassage);
-            DrawMap();
+            if (_marchingSquaresGeneratorLevel == null) DrawMap();
+            else
+            {
+                _marchingSquaresGeneratorLevel.GenerateGrid(_map, 1);
+                _marchingSquaresGeneratorLevel.DrawTilesOnMap(_tilemap, _tile);
+            }
         }
 
         private void DrawMap()
